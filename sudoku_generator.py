@@ -45,7 +45,8 @@ def get_puzzle(sudoku):
         if i in range(72,81):
             row9.append(sudoku[i].returnSolved())
     puzzle = [row1, row2, row3, row4, row5, row6, row7, row8, row9]
-    return puzzle
+    puzzle_flatten = [value for row in puzzle for value in row]
+    return (puzzle_flatten)
 
 def generate_puzzle(level):
     """ Input the level of difficulty of the sudoku puzzle. Difficulty levels
@@ -58,7 +59,7 @@ def generate_puzzle(level):
         p = sud.perfectSudoku()
         s = sud.puzzleGen(p)
         if s[2] != 'Easy':
-            return sud.main(level)
+            return generate_puzzle(level)
         t2 = time.time()
         t3 = t2 - t1
         print("Runtime is " + str(t3) + " seconds")
@@ -72,9 +73,9 @@ def generate_puzzle(level):
             n += 1
             s = sud.puzzleGen(p)
             if n > 50:
-                return sud.main(level)
+                return generate_puzzle(level)
         if s[2] != 'Medium':
-            return sud.main(level)
+            return generate_puzzle(level)
         t2 = time.time()
         t3 = t2 - t1
         print("Runtime is " + str(t3) + " seconds")
@@ -88,14 +89,14 @@ def generate_puzzle(level):
             n += 1
             s = sud.puzzleGen(p)
             if n > 50:
-                return sud.main(level)
+                return generate_puzzle(level)
         while s[2] == 'Medium':
             n += 1
             s = sud.puzzleGen(p)
             if n > 50:
-                return sud.main(level)
+                return generate_puzzle(level)
         if s[2] != 'Hard':
-            return sud.main(level)
+            return generate_puzzle(level)
         t2 = time.time()
         t3 = t2 - t1
         print("Runtime is " + str(t3) + " seconds")
@@ -109,7 +110,7 @@ def generate_puzzle(level):
             n += 1
             s = sud.puzzleGen(p)
             if n > 50:
-                return sud.main(level)
+                return generate_puzzle(level)
         t2 = time.time()
         t3 = t2 - t1
         print("Runtime is " + str(t3) + " seconds")
@@ -118,3 +119,6 @@ def generate_puzzle(level):
         return get_puzzle(s[0])
     else:
         raise(ValueError)
+
+x = generate_puzzle('Easy')
+print(x)
